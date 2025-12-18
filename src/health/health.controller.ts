@@ -5,6 +5,7 @@ import {
     HealthCheck,
     MemoryHealthIndicator,
     DiskHealthIndicator,
+    TypeOrmHealthIndicator,
 } from '@nestjs/terminus';
 
 @ApiTags('Health')
@@ -14,6 +15,7 @@ export class HealthController {
         private health: HealthCheckService,
         private memory: MemoryHealthIndicator,
         private disk: DiskHealthIndicator,
+        private db: TypeOrmHealthIndicator,
     ) { }
 
     @Get()
@@ -51,6 +53,8 @@ export class HealthController {
             () => this.memory.checkRSS('memory_rss', 500 * 1024 * 1024),
             // Check if disk storage is below 99% usage (Windows compatible path)
             () => this.disk.checkStorage('storage', { path: 'C:/', thresholdPercent: 0.99 }),
+            // Check if database is responding
+            () => this.db.pingCheck('database'),
         ]);
     }
 }

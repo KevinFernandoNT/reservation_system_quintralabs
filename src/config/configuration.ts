@@ -15,6 +15,7 @@ export default () => ({
         username: process.env.DATABASE_USER || 'reservation_user',
         password: process.env.DATABASE_PASSWORD || 'reservation_password',
         database: process.env.DATABASE_NAME || 'reservation_db',
+        name: process.env.DATABASE_NAME || 'reservation_db',
     },
 
     // CORS
