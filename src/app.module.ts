@@ -5,6 +5,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import configuration from './config/configuration';
 import { HealthModule } from './health/health.module';
+import { ReservationsModule } from './v1/reservations/reservations.module';
 
 @Module({
   imports: [
@@ -26,9 +27,12 @@ import { HealthModule } from './health/health.module';
         database: configService.get<string>('database.name'),
         autoLoadEntities: true,
         synchronize: configService.get<string>('nodeEnv') !== 'production',
+        migrationsRun: true,
+        migrations: [__dirname + '/migrations/**/*{.ts,.js}'],
       }),
     }),
     HealthModule,
+    ReservationsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

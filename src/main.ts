@@ -5,6 +5,8 @@ import { ConfigService } from '@nestjs/config';
 import helmet from 'helmet';
 import * as compression from 'compression';
 import { ValidationPipe } from '@nestjs/common';
+import { HttpExceptionFilter } from './v1/common/filters/http-exception.filter';
+import { TransformInterceptor } from './v1/common/interceptors/transform.interceptor';
 
 async function bootstrap() {
   try {
@@ -34,6 +36,9 @@ async function bootstrap() {
         transform: true,
       }),
     );
+
+    app.useGlobalFilters(new HttpExceptionFilter());
+    app.useGlobalInterceptors(new TransformInterceptor());
 
     app.setGlobalPrefix('api/v1');
 
