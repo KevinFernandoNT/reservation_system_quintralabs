@@ -26,10 +26,11 @@ services:
   api:
     build:
       context: ..
-      dockerfile: docker/Dockerfile
-      target: development
+      dockerfile: docker/Dockerfile.dev
     container_name: reservation-api
     restart: unless-stopped
+    env_file:
+      - ../.env.development
     environment:
       NODE_ENV: ${NODE_ENV:-development}
       PORT: ${PORT:-3000}

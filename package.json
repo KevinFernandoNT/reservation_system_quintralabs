@@ -17,13 +17,26 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "docker:dev:build": "docker-compose -f docker/docker-compose.yml build",
+    "docker:dev:up": "docker-compose -f docker/docker-compose.yml up",
+    "docker:dev:down": "docker-compose -f docker/docker-compose.yml down",
+    "docker:prod:build": "docker-compose -f docker/docker-compose.prod.yml build",
+    "docker:prod:up": "docker-compose -f docker/docker-compose.prod.yml up -d",
+    "docker:prod:down": "docker-compose -f docker/docker-compose.prod.yml down",
+    "docker:prod:logs": "docker-compose -f docker/docker-compose.prod.yml logs -f"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",
+    "@nestjs/config": "^4.0.2",
     "@nestjs/core": "^11.0.1",
     "@nestjs/platform-express": "^11.0.1",
     "@nestjs/swagger": "^11.2.3",
+    "@nestjs/terminus": "^11.0.0",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.3",
+    "compression": "^1.8.1",
+    "helmet": "^8.1.0",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1",
     "swagger-ui-express": "^5.0.1"
