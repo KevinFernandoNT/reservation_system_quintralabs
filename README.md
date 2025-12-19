@@ -55,6 +55,39 @@ npm run start:dev
 
 ---
 
+## 🐳 Docker Setup
+
+The application is fully dockerized for both development and production environments.
+
+### 1. Prerequisites
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/) installed and running.
+
+### 2. Environment Configuration
+Ensure you have a `.env.development` file in the root directory (as described in the manual setup). The Docker configuration will use this file.
+
+### 3. Start the Application
+Run the following command to start the API, PostgreSQL database, and pgAdmin:
+
+```bash
+docker-compose --file docker/docker-compose.yml up --build
+```
+
+### 4. Access the Services
+- **API**: [http://localhost:3000](http://localhost:3000)
+- **Swagger Documentation**: [http://localhost:3000/api](http://localhost:3000/api)
+- **pgAdmin**: [http://localhost:5050](http://localhost:5050)
+    - **Email**: `admin@reservation.com`
+    - **Password**: `admin`
+
+### 5. Stop the Application
+To stop and remove the containers:
+
+```bash
+docker-compose --file docker/docker-compose.yml down
+```
+
+---
+
 ## 📚 API Endpoints
 
 ### Documentation
