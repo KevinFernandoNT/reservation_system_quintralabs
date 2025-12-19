@@ -6,11 +6,20 @@ import {
     Index,
 } from 'typeorm';
 import { Timezone } from '../../../common/enums/timezone.enum';
+import { ReservationStatus } from '../enums/reservation-status.enum';
 
 @Entity('reservations')
 export class Reservation {
     @PrimaryGeneratedColumn('uuid')
     id: string;
+
+    @Column({
+        type: 'enum',
+        enum: ReservationStatus,
+        default: ReservationStatus.PENDING,
+    })
+    @Index()
+    status: ReservationStatus;
 
     @Column()
     @Index()

@@ -4,6 +4,7 @@ import {
     ConflictException,
     BadRequestException,
 } from '@nestjs/common';
+import { ReservationStatus } from './enums/reservation-status.enum';
 import { CreateReservationDto } from './dto/create-reservation.dto';
 import { ReservationFilterDto } from './dto/reservations-filter.dto';
 import { isUUID } from 'class-validator';
@@ -77,14 +78,24 @@ export class ReservationsService {
     }
 
     async remove(id: string): Promise<string> {
-
         if (!isUUID(id)) {
             throw new BadRequestException(`Reservation ID should be a valid UUID string`);
         }
-        const result = await this.reservationsRepository.delete(id);
-        if (result.affected === 0) {
-            throw new NotFoundException(`Reservation with ID ${id} not found`);
-        }
-        return "Reservation Deleted Successfully";
+        const reservation = await this.findOne(id);
+        reservation.status = ReservationStatus.CANCELLED;
+        await this.reservationsRepository.save(reservation);
+        return "Reservation Cancelled Successfully";
+    }
+
+    async cleanupExpiredReservations(): Promise<number> {
+        const result = await this.reservationsRepository
+            .createQueryBuilder()
+            .update(Reservation)
+            .set({ status: ReservationStatus.CANCELLED })
+            .where('startTime < :now', { now: new Date() })
+            .andWhere('status = :status', { status: ReservationStatus.PENDING })
+            .execute();
+
+        return result.affected || 0;
     }
 }
