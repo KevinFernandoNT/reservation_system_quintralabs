@@ -5,6 +5,10 @@ A production-ready NestJS Backend API for managing resource reservations with a 
 ## 🚀 Objective
 This system ensures that a single resource cannot be double-booked for overlapping time periods, even under concurrent requests.
 
+For detailed information on the architectural choices and how the system scales, see the **[Design Docs](./Design%20Docs)**:
+- [Design Decisions & Rationale](./Design%20Docs/DesignDecisions.md)
+- [System Scalability Notes](./Design%20Docs/Scaling.md)
+
 ---
 
 ## 🛠 Features
@@ -32,6 +36,10 @@ npm install
 ```
 
 ### 2. Environment Configuration
+
+The application supports multiple environments via `.env` files.
+
+#### Development
 Create a `.env.development` file in the root directory:
 ```env
 DATABASE_HOST=localhost
@@ -43,15 +51,42 @@ NODE_ENV=development
 SWAGGER_ENABLED=true
 ```
 
+#### Production
+Create a `.env.production` file in the root directory:
+```env
+DATABASE_HOST=your-prod-db-host
+DATABASE_PORT=5432
+DATABASE_USER=your-prod-user
+DATABASE_PASSWORD=your-prod-password
+DATABASE_NAME=reservation_db
+NODE_ENV=production
+SWAGGER_ENABLED=false
+CORS_ORIGIN=https://yourdomain.com
+```
+In production, the application uses **Helmet** for improved security headers and disables Swagger by default.
+
 ### 3. Run Migrations
 ```bash
 npm run migrate:up
 ```
 
 ### 4. Start Application
+
+#### Development Mode (with hot-reload)
 ```bash
 npm run start:dev
 ```
+
+#### Production Mode
+First, build the application:
+```bash
+npm run build
+```
+Then start the compiled code using the production environment:
+```bash
+npm run start:prod
+```
+The `start:prod` script is configured to use `cross-env NODE_ENV=production`, which automatically loads the `.env.production` file via the `ConfigModule`.
 
 ---
 
@@ -66,11 +101,17 @@ The application is fully dockerized for both development and production environm
 Ensure you have a `.env.development` file in the root directory (as described in the manual setup). The Docker configuration will use this file.
 
 ### 3. Start the Application
-Run the following command to start the API, PostgreSQL database, and pgAdmin:
-
+To start the application in **development mode** (using `.env.development`):
 ```bash
 docker-compose --file docker/docker-compose.yml up --build
 ```
+
+To start the application in **production mode** (using `.env.production`):
+```bash
+docker-compose --file docker/docker-compose.prod.yml up --build
+```
+> [!NOTE]
+> The `docker-compose.prod.yml` uses the `Dockerfile.prod` for a multi-stage, slimmed-down production build.
 
 ### 4. Access the Services
 - **API**: [http://localhost:3000](http://localhost:3000)
