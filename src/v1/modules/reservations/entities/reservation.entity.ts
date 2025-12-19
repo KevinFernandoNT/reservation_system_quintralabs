@@ -5,7 +5,7 @@ import {
     CreateDateColumn,
     Index,
 } from 'typeorm';
-import { Timezone } from '../../common/enums/timezone.enum';
+import { Timezone } from '../../../common/enums/timezone.enum';
 
 @Entity('reservations')
 export class Reservation {

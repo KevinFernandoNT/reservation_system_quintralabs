@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsDateString, IsEnum, IsNotEmpty, IsUUID } from 'class-validator';
-import { Timezone } from '../../common/enums/timezone.enum';
+import { Timezone } from '../../../common/enums/timezone.enum';
 
 export class CreateReservationDto {
     @ApiProperty({ example: '3bbcd28b-b6a3-4b6e-b6a3-b6a3b6a3b6a3' })

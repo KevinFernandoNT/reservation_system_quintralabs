@@ -14,7 +14,7 @@ import { ReservationsService } from './reservations.service';
 import { CreateReservationDto } from './dto/create-reservation.dto';
 import { ReservationFilterDto } from './dto/reservations-filter.dto';
 import { Reservation } from './entities/reservation.entity';
-import { PaginatedResponseDto } from '../common/pagination/pagination.dto';
+import { PaginatedResponseDto } from '../../common/pagination/pagination.dto';
 
 @ApiTags('Reservations')
 @Controller('reservations')

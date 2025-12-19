@@ -5,7 +5,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import configuration from './config/configuration';
 import { HealthModule } from './health/health.module';
-import { ReservationsModule } from './v1/reservations/reservations.module';
+import { ReservationsModule } from './v1/modules/reservations/reservations.module';
 
 @Module({
   imports: [

@@ -9,7 +9,7 @@ import { ReservationFilterDto } from './dto/reservations-filter.dto';
 import { isUUID } from 'class-validator';
 import { ReservationsRepository } from './reservations.repository';
 import { Reservation } from './entities/reservation.entity';
-import { PaginatedResponseDto } from '../common/pagination/pagination.dto';
+import { PaginatedResponseDto } from '../../common/pagination/pagination.dto';
 import { fromZonedTime } from 'date-fns-tz';
 
 @Injectable()

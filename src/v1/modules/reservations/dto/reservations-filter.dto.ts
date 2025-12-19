@@ -1,6 +1,6 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { IsOptional, IsUUID } from 'class-validator';
-import { PaginationParamsDto } from '../../common/pagination/pagination.dto';
+import { PaginationParamsDto } from '../../../common/pagination/pagination.dto';
 
 export class ReservationFilterDto extends PaginationParamsDto {
     @ApiPropertyOptional({ example: '3bbcd28b-b6a3-4b6e-b6a3-b6a3b6a3b6a3' })
