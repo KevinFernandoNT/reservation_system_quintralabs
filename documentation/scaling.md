@@ -24,15 +24,6 @@ To reduce the frequency of expensive database queries:
 - **Availability Queries**: Before performing a full database transaction, check a Redis-based availability map (e.g., using Bitmaps or Sets) to quickly reject obviously unavailable slots.
 - **Distributed Locking**: If moving beyond a single PostgreSQL instance's scope, migrate from database exclusion constraints to a distributed locking mechanism like **Redlock** (Redis Distributed Lock) to manage concurrency across a global cluster.
 
-## 4. Message Queues & Event-Driven Architecture
-Offload non-critical tasks from the main request/response cycle:
-
-- **Notifications**: When a reservation is created or cancelled, emit an event to a message broker (e.g., RabbitMQ, Kafka, or AWS SNS/SQS). A separate worker service can handle sending confirmation emails or SMS.
-- **Analytics**: Stream reservation activity to a data warehouse (like Snowflake or BigQuery) for long-term reporting without impacting the production database.
-
 ## 5. Global Distribution
 For a global user base:
-
-- **CDN**: Serve Swagger documentation and static assets via a CDN.
-- **Geographic Routing**: Use Latency-based routing to direct users to the nearest regional cluster (e.g., US-East, EU-West) to minimize network latency.
 - **Database Sharding**: In extreme cases, shard the database by `resourceId` or geographic region to distribute the data load across multiple independent Postgres clusters.
