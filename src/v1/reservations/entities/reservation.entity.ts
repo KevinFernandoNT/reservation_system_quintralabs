@@ -20,10 +20,10 @@ export class Reservation {
     @Index()
     userId: string;
 
-    @Column()
+    @Column({ type: "timestamptz" })
     startTime: Date;
 
-    @Column()
+    @Column({ type: "timestamptz" })
     endTime: Date;
 
     @Column()

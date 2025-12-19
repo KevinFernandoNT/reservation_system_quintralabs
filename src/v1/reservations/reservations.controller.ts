@@ -48,11 +48,10 @@ export class ReservationsController {
     }
 
     @Delete(':id')
-    @HttpCode(HttpStatus.NO_CONTENT)
     @ApiOperation({ summary: 'Cancel a reservation' })
-    @ApiResponse({ status: 204, description: 'Reservation canceled' })
+    @ApiResponse({ status: 200, description: 'Reservation canceled' })
     @ApiResponse({ status: 404, description: 'Reservation not found' })
-    remove(@Param('id') id: string): Promise<void> {
+    remove(@Param('id') id: string): Promise<string> {
         return this.reservationsService.remove(id);
     }
 }

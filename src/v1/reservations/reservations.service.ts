@@ -2,13 +2,14 @@ import {
     Injectable,
     NotFoundException,
     ConflictException,
+    BadRequestException,
 } from '@nestjs/common';
 import { CreateReservationDto } from './dto/create-reservation.dto';
 import { ReservationFilterDto } from './dto/reservations-filter.dto';
+import { isUUID } from 'class-validator';
 import { ReservationsRepository } from './reservations.repository';
 import { Reservation } from './entities/reservation.entity';
 import { PaginatedResponseDto } from '../common/pagination/pagination.dto';
-import { LessThan, MoreThan } from 'typeorm';
 import { fromZonedTime } from 'date-fns-tz';
 
 @Injectable()
@@ -26,15 +27,17 @@ export class ReservationsService {
             throw new ConflictException('Start time must be before end time');
         }
 
-        const reservation = this.reservationsRepository.create({
-            resourceId,
-            userId,
-            startTime: start,
-            endTime: end,
-            timezone,
-        });
+        return await this.reservationsRepository.manager.transaction(async (transactionalEntityManager) => {
+            const reservation = transactionalEntityManager.create(Reservation, {
+                resourceId,
+                userId,
+                startTime: start,
+                endTime: end,
+                timezone,
+            });
 
-        return await this.reservationsRepository.save(reservation);
+            return await transactionalEntityManager.save(reservation);
+        });
     }
 
     async findAll(
@@ -63,6 +66,9 @@ export class ReservationsService {
     }
 
     async findOne(id: string): Promise<Reservation> {
+        if (!isUUID(id)) {
+            throw new BadRequestException(`Reservation ID should be a valid UUID string`);
+        }
         const reservation = await this.reservationsRepository.findOne({ where: { id } });
         if (!reservation) {
             throw new NotFoundException(`Reservation with ID ${id} not found`);
@@ -70,10 +76,15 @@ export class ReservationsService {
         return reservation;
     }
 
-    async remove(id: string): Promise<void> {
+    async remove(id: string): Promise<string> {
+
+        if (!isUUID(id)) {
+            throw new BadRequestException(`Reservation ID should be a valid UUID string`);
+        }
         const result = await this.reservationsRepository.delete(id);
         if (result.affected === 0) {
             throw new NotFoundException(`Reservation with ID ${id} not found`);
         }
+        return "Reservation Deleted Successfully";
     }
 }
