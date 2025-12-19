@@ -24,6 +24,6 @@ To reduce the frequency of expensive database queries:
 - **Availability Queries**: Before performing a full database transaction, check a Redis-based availability map (e.g., using Bitmaps or Sets) to quickly reject obviously unavailable slots.
 - **Distributed Locking**: If moving beyond a single PostgreSQL instance's scope, migrate from database exclusion constraints to a distributed locking mechanism like **Redlock** (Redis Distributed Lock) to manage concurrency across a global cluster.
 
-## 5. Global Distribution
+## 4. Global Distribution
 For a global user base:
 - **Database Sharding**: In extreme cases, shard the database by `resourceId` or geographic region to distribute the data load across multiple independent Postgres clusters.
