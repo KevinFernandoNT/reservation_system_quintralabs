@@ -43,6 +43,10 @@ export class HttpExceptionFilter implements ExceptionFilter {
                 status = HttpStatus.CONFLICT;
                 message = 'Conflict: Dynamic constraint violation (Duplicate entry)';
                 error = 'ConflictException';
+            } else if (dbError.code === '22P02') {
+                status = HttpStatus.BAD_REQUEST;
+                message = 'Invalid UUID format';
+                error = 'BadRequestException';
             } else {
                 this.logger.error(`Database Error: ${exception.message}`, exception.stack);
             }
