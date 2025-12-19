@@ -189,3 +189,9 @@ Run unit tests:
 ```bash
 npm test
 ```
+
+---
+## Assumptions
+The follwoing assumptions are made when designing the application,
+**user's can add reservations from all over the world (different timezones)
+---
