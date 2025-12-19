@@ -5,9 +5,9 @@ A production-ready NestJS Backend API for managing resource reservations with a 
 ## 🚀 Objective
 This system ensures that a single resource cannot be double-booked for overlapping time periods, even under concurrent requests.
 
-For detailed information on the architectural choices and how the system scales, see the **[Design Docs](./Design%20Docs)**:
-- [Design Decisions & Rationale](./Design%20Docs/DesignDecisions.md)
-- [System Scalability Notes](./Design%20Docs/Scaling.md)
+For detailed information on the architectural choices and how the system scales, see the **[Design Docs](./documentation)**:
+- [Design Decisions & Rationale](./documentation/design.md)
+- [System Scalability Notes](./documentation/scaling.md)
 
 ---
 
@@ -101,19 +101,31 @@ The application is fully dockerized for both development and production environm
 Ensure you have a `.env.development` file in the root directory (as described in the manual setup). The Docker configuration will use this file.
 
 ### 3. Start the Application
-To start the application in **development mode** (using `.env.development`):
-```bash
-docker-compose --file docker/docker-compose.yml up --build
-```
 
-To start the application in **production mode** (using `.env.production`):
+#### Development Mode
+To start the application in **development mode** (with hot-reload):
 ```bash
-docker-compose --file docker/docker-compose.prod.yml up --build
+npm run docker:dev:up
 ```
-> [!NOTE]
-> The `docker-compose.prod.yml` uses the `Dockerfile.prod` for a multi-stage, slimmed-down production build.
+*This command runs `docker-compose -f docker/docker-compose.yml up` under the hood.*
 
-### 4. Access the Services
+#### Production Mode
+To start the application in **production mode**:
+```bash
+# First, build the production images
+npm run docker:prod:build
+
+# Then start the unified production stack
+npm run docker:prod:up
+```
+*These commands use the multi-stage `Dockerfile.prod` and optimized `docker-compose.prod.yml` configuration.*
+
+### 4. Manage Docker Services
+- **View Logs (Production)**: `npm run docker:prod:logs`
+- **Stop Development**: `npm run docker:dev:down`
+- **Stop Production**: `npm run docker:prod:down`
+
+### 5. Access the Services
 - **API**: [http://localhost:3000](http://localhost:3000)
 - **Swagger Documentation**: [http://localhost:3000/api](http://localhost:3000/api)
 - **pgAdmin**: [http://localhost:5050](http://localhost:5050)
