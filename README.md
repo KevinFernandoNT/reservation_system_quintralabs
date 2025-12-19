@@ -191,8 +191,7 @@ npm test
 ```
 
 ---
-##Assumptions
+## Assumptions
 The follwoing assumptions are made when designing the application,
-
- - **user's can add reservations from all over the world (different timezones)
+**user's can add reservations from all over the world (different timezones)
 ---
