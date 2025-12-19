@@ -16,5 +16,5 @@ COPY . .
 # Expose application port
 EXPOSE 3000
 
-# Start development server with hot-reload
-CMD ["npm", "run", "start:dev"]
+# Start development server with migrations
+CMD ["sh", "-c", "npm run migrate:up && npm run start:dev"]

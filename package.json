@@ -28,7 +28,9 @@
     "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
     "migration:create": "cross-var typeorm migration:create ./src/migrations/$npm_config_name",
     "migrate:up": "npm run typeorm -- --dataSource=src/v1/config/database/typeorm-cli.config.ts migration:run",
-    "migrate:down": "npm run typeorm -- --dataSource=src/v1/config/database/typeorm-cli.config.ts migration:revert"
+    "migrate:up:prod": "npm run typeorm:prod -- --dataSource=dist/v1/config/database/typeorm-cli.config.js migration:run",
+    "migrate:down": "npm run typeorm -- --dataSource=src/v1/config/database/typeorm-cli.config.ts migration:revert",
+    "typeorm:prod": "node ./node_modules/typeorm/cli.js"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",

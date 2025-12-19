@@ -15,8 +15,8 @@ export default new DataSource({
     username: configService.get<string>('DATABASE_USER') || "reservation_user",
     password: configService.get<string>('DATABASE_PASSWORD') || "reservation_password",
     database: configService.get<string>('DATABASE_NAME') || "reservation_db",
-    entities: ["src/v1/**/*.entity.ts"],
-    migrations: ["src/migrations/*.ts"],
+    entities: [process.env.NODE_ENV === 'production' ? "dist/**/*.entity.js" : "src/v1/**/*.entity.ts"],
+    migrations: [process.env.NODE_ENV === 'production' ? "dist/migrations/*.js" : "src/migrations/*.ts"],
     subscribers: [],
     synchronize: false,
 })
